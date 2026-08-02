@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
     implementation("androidx.activity:activity-ktx:1.9.1") // for the `by viewModels()` delegate
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     // Raw SQLite (androidx.sqlite is a thin wrapper over SQLiteOpenHelper, not Room —
     // deliberately avoiding Room's annotation processor per the "editor-agnostic,

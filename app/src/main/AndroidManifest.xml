@@ -28,6 +28,8 @@
         <activity android:name=".ui.clip.ImportClipActivity" android:exported="false" />
         <activity android:name=".ui.session.LogSessionActivity" android:exported="false" />
         <activity android:name=".ui.dev.DeveloperModeActivity" android:exported="false" />
+        <activity android:name=".ui.review.ClipListActivity" android:exported="false" />
+        <activity android:name=".ui.review.ClipDetailActivity" android:exported="false" />
 
     </application>
 

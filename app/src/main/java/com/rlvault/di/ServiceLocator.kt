@@ -4,9 +4,11 @@ import android.content.Context
 import com.rlvault.data.db.RLVaultDbHelper
 import com.rlvault.data.repository.AchievementRepository
 import com.rlvault.data.repository.ClipRepository
+import com.rlvault.data.repository.MechanicRepository
 import com.rlvault.data.repository.SessionRepository
 import com.rlvault.data.repository.SqliteAchievementRepository
 import com.rlvault.data.repository.SqliteClipRepository
+import com.rlvault.data.repository.SqliteMechanicRepository
 import com.rlvault.data.repository.SqliteSessionRepository
 import com.rlvault.util.AchievementEvaluator
 
@@ -26,6 +28,8 @@ object ServiceLocator {
         private set
     lateinit var achievementRepository: AchievementRepository
         private set
+    lateinit var mechanicRepository: MechanicRepository
+        private set
     lateinit var achievementEvaluator: AchievementEvaluator
         private set
 
@@ -36,6 +40,7 @@ object ServiceLocator {
         clipRepository = SqliteClipRepository(dbHelper)
         sessionRepository = SqliteSessionRepository(dbHelper)
         achievementRepository = SqliteAchievementRepository(dbHelper)
+        mechanicRepository = SqliteMechanicRepository(dbHelper)
         achievementEvaluator = AchievementEvaluator(achievementRepository, clipRepository)
     }
 }

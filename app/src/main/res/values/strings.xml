@@ -11,6 +11,17 @@
     <string name="home_import_clip_button">Import Clip</string>
     <string name="home_log_session_button">Log Session</string>
     <string name="home_dev_mode_button">Developer Mode</string>
+    <string name="home_review_clips_button">Review Clips</string>
+
+    <string name="clip_list_empty">No clips waiting for review.</string>
+
+    <string name="clip_detail_play_button">Play</string>
+    <string name="clip_detail_rating_hint">Rating (e.g. 8)</string>
+    <string name="clip_detail_favorite_label">Favorite</string>
+    <string name="clip_detail_mechanics_hint">Mechanics (comma-separated, e.g. Flip Reset, Musty)</string>
+    <string name="clip_detail_mechanics_helper">Existing tag names are reused; new ones are created.</string>
+    <string name="clip_detail_notes_hint">Notes (optional)</string>
+    <string name="clip_detail_mark_reviewed_button">Mark Reviewed</string>
 
     <string name="import_clip_title">Import Clip</string>
     <string name="import_clip_pick_button">Pick Video File</string>

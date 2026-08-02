@@ -9,6 +9,7 @@ import com.rlvault.di.ServiceLocator
 import com.rlvault.ui.clip.ImportClipActivity
 import com.rlvault.ui.dev.DeveloperModeActivity
 import com.rlvault.ui.session.LogSessionActivity
+import com.rlvault.ui.review.ClipListActivity
 
 /**
  * The app's launcher Activity. Shows live stats (pending review count, last session, latest
@@ -44,6 +45,9 @@ class HomeActivity : AppCompatActivity() {
         }
         binding.devModeButton.setOnClickListener {
             startActivity(Intent(this, DeveloperModeActivity::class.java))
+        }
+        binding.reviewClipsButton.setOnClickListener {
+            startActivity(Intent(this, ClipListActivity::class.java))
         }
     }
 
