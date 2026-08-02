@@ -50,6 +50,7 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0") // Material 3 components
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
+    implementation("androidx.activity:activity-ktx:1.9.1") // for the `by viewModels()` delegate
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Raw SQLite (androidx.sqlite is a thin wrapper over SQLiteOpenHelper, not Room —
