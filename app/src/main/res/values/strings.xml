@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RL Vault</string>
+
+    <string name="home_title">RL Vault</string>
+    <string name="home_pending_review_label">Pending Review</string>
+    <string name="home_last_session_label">Last Session</string>
+    <string name="home_latest_achievement_label">Latest Achievement</string>
+    <!-- Static placeholder — flips to real values once HomeViewModel loads. -->
+    <string name="home_placeholder_value">—</string>
+    <string name="home_import_clip_button">Import Clip</string>
+    <string name="home_log_session_button">Log Session</string>
+    <string name="home_dev_mode_button">Developer Mode</string>
+
+    <string name="import_clip_title">Import Clip</string>
+    <string name="import_clip_pick_button">Pick Video File</string>
+
+    <string name="log_session_title">Log Session</string>
+    <string name="log_session_wins_hint">Wins</string>
+    <string name="log_session_losses_hint">Losses</string>
+    <string name="log_session_rank_hint">Rank (optional)</string>
+    <string name="log_session_notes_hint">Notes (optional)</string>
+    <string name="log_session_save_button">Save</string>
+
+    <string name="dev_mode_title">Developer Mode</string>
+    <string name="dev_mode_recalculate_button">Recalculate Statistics</string>
+    <string name="dev_mode_reset_button">Reset Achievement Progress</string>
+    <string name="dev_reset_confirm_title">Reset achievement progress?</string>
+    <string name="dev_reset_confirm_message">This clears all unlock state but keeps achievement definitions. This cannot be undone.</string>
+    <string name="dev_reset_confirm_positive">Reset</string>
+</resources>

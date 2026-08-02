@@ -4,6 +4,7 @@
     <!-- No INTERNET permission — RL Vault is fully offline per spec. -->
 
     <application
+        android:name=".RLVaultApp"
         android:allowBackup="false"
         android:label="RL Vault"
         android:theme="@style/Theme.RLVault"
@@ -13,7 +14,20 @@
         <!-- android:icon intentionally omitted — no launcher icon asset exists yet (visual/UI
              work is deferred past Milestone 1). Add @mipmap/ic_launcher back once real icon
              assets are created. -->
-        <!-- Activities intentionally not declared yet — UI is Milestone 2+. -->
+        <!-- Bare Home screen (static placeholder content) — jumped ahead per SESSION_HANDOFF.md
+             Option 3. Real data wiring still Milestone 2+. -->
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.clip.ImportClipActivity" android:exported="false" />
+        <activity android:name=".ui.session.LogSessionActivity" android:exported="false" />
+        <activity android:name=".ui.dev.DeveloperModeActivity" android:exported="false" />
 
     </application>
 
