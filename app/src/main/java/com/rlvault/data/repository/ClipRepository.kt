@@ -11,6 +11,7 @@ interface ClipRepository {
     suspend fun getById(id: Long): Clip?
     suspend fun getAll(): List<Clip>
     suspend fun getUnreviewed(): List<Clip>
+    suspend fun getReviewed(): List<Clip>
     suspend fun getBySession(sessionId: Long): List<Clip>
     suspend fun insert(clip: Clip): Long
     suspend fun update(clip: Clip)

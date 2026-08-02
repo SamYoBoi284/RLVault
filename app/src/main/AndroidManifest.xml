@@ -30,6 +30,8 @@
         <activity android:name=".ui.dev.DeveloperModeActivity" android:exported="false" />
         <activity android:name=".ui.review.ClipListActivity" android:exported="false" />
         <activity android:name=".ui.review.ClipDetailActivity" android:exported="false" />
+        <activity android:name=".ui.review.ReviewedClipListActivity" android:exported="false" />
+        <activity android:name=".ui.player.PlayerActivity" android:exported="false" />
 
     </application>
 

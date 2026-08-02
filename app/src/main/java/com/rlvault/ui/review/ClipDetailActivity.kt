@@ -1,19 +1,18 @@
 package com.rlvault.ui.review
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.rlvault.databinding.ActivityClipDetailBinding
 import com.rlvault.di.ServiceLocator
+import com.rlvault.ui.player.PlayerActivity
 
 /**
- * Review screen for a single clip. RL Vault never embeds video playback itself (no bundled
- * player, no VideoView pipeline) — "play" hands the stored content:// URI to whatever video app
- * the phone already has, same philosophy as "never copy the file, only reference it."
+ * Review screen for a single clip. Also reused to re-edit an already-reviewed clip (opened from
+ * ReviewedClipListActivity) — saving here re-marks reviewed and re-runs the achievement
+ * evaluator either way, so editing an existing review is harmless.
  */
 class ClipDetailActivity : AppCompatActivity() {
 
@@ -65,15 +64,9 @@ class ClipDetailActivity : AppCompatActivity() {
 
     private fun playClip() {
         val path = filePath ?: return
-        try {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(Uri.parse(path), "video/*")
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, "No app found to play this video.", Toast.LENGTH_LONG).show()
-        }
+        startActivity(
+            Intent(this, PlayerActivity::class.java).putExtra(PlayerActivity.EXTRA_FILE_PATH, path)
+        )
     }
 
     companion object {

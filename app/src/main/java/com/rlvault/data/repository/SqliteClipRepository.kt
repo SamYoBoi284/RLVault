@@ -48,6 +48,16 @@ class SqliteClipRepository(private val dbHelper: RLVaultDbHelper) : ClipReposito
         }
     }
 
+    override suspend fun getReviewed(): List<Clip> = withContext(Dispatchers.IO) {
+        val db = dbHelper.readableDatabase
+        db.query(
+            Clips.TABLE, null, "${Clips.REVIEWED} = 1", null,
+            null, null, "${Clips.IMPORTED_AT} DESC"
+        ).use { c ->
+            generateSequence { if (c.moveToNext()) c else null }.map { it.toClip(db) }.toList()
+        }
+    }
+
     override suspend fun getBySession(sessionId: Long): List<Clip> = withContext(Dispatchers.IO) {
         val db = dbHelper.readableDatabase
         db.query(

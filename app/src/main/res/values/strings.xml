@@ -12,8 +12,10 @@
     <string name="home_log_session_button">Log Session</string>
     <string name="home_dev_mode_button">Developer Mode</string>
     <string name="home_review_clips_button">Review Clips</string>
+    <string name="home_reviewed_clips_button">Reviewed Clips</string>
 
     <string name="clip_list_empty">No clips waiting for review.</string>
+    <string name="reviewed_list_empty">No clips reviewed yet.</string>
 
     <string name="clip_detail_play_button">Play</string>
     <string name="clip_detail_rating_hint">Rating (e.g. 8)</string>
