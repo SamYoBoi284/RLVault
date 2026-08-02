@@ -13,7 +13,7 @@ jobs:
         uses: android-actions/setup-android@v3
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: List Gradle tasks (debug aid)
-        run: ./gradlew tasks --all
+      - name: List :app tasks (debug aid)
+        run: ./gradlew :app:tasks --all --stacktrace
       - name: Compile Kotlin
-        run: ./gradlew compileDebugKotlin
+        run: ./gradlew :app:compileDebugKotlin --stacktrace
