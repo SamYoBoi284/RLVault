@@ -7,10 +7,12 @@
         android:allowBackup="false"
         android:label="RL Vault"
         android:theme="@style/Theme.RLVault"
-        android:icon="@mipmap/ic_launcher"
         tools:targetApi="34"
         xmlns:tools="http://schemas.android.com/tools">
 
+        <!-- android:icon intentionally omitted — no launcher icon asset exists yet (visual/UI
+             work is deferred past Milestone 1). Add @mipmap/ic_launcher back once real icon
+             assets are created. -->
         <!-- Activities intentionally not declared yet — UI is Milestone 2+. -->
 
     </application>
