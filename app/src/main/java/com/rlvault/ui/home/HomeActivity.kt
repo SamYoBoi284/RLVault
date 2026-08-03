@@ -11,6 +11,7 @@ import com.rlvault.ui.dev.DeveloperModeActivity
 import com.rlvault.ui.session.LogSessionActivity
 import com.rlvault.ui.review.ClipListActivity
 import com.rlvault.ui.review.ReviewedClipListActivity
+import com.rlvault.ui.session.SessionTrackingActivity
 
 /**
  * The app's launcher Activity. Shows live stats (pending review count, last session, latest
@@ -42,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, ImportClipActivity::class.java))
         }
         binding.logSessionButton.setOnClickListener {
-            startActivity(Intent(this, LogSessionActivity::class.java))
+            startActivity(Intent(this, SessionTrackingActivity::class.java))
         }
         binding.devModeButton.setOnClickListener {
             startActivity(Intent(this, DeveloperModeActivity::class.java))
