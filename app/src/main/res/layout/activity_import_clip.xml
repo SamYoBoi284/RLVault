@@ -15,13 +15,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/folderPathText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
-        android:id="@+id/pickFileButton"
+        android:id="@+id/selectFolderButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/import_clip_pick_button"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
+        android:layout_marginTop="16dp"
+        android:text="@string/import_clip_select_folder_button"
+        app:layout_constraintTop_toBottomOf="@id/folderPathText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/rescanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/import_clip_rescan_button"
+        app:layout_constraintTop_toBottomOf="@id/folderPathText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/changeFolderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/import_clip_change_folder_button"
+        app:layout_constraintTop_toBottomOf="@id/rescanButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -30,8 +58,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/pickFileButton"
+        app:layout_constraintTop_toBottomOf="@id/changeFolderButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/manualImportLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/import_clip_manual_label"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/statusText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/pickFileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/import_clip_pick_button"
+        app:layout_constraintTop_toBottomOf="@id/manualImportLabel"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

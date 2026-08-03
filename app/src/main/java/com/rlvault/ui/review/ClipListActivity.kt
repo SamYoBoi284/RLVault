@@ -24,8 +24,16 @@ class ClipListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         adapter = ClipAdapter { clip ->
+            // Snapshot the full unreviewed id list once, at queue-entry, so it doesn't reshuffle
+            // under the user as clips drop out of the list mid-review.
+            val queueIds = (adapter.currentList.map { it.id }).let { ids ->
+                LongArray(ids.size) { i -> ids[i] }
+            }
+            val position = queueIds.indexOf(clip.id).let { if (it == -1) 0 else it }
             val intent = Intent(this, ClipDetailActivity::class.java)
                 .putExtra(ClipDetailActivity.EXTRA_CLIP_ID, clip.id)
+                .putExtra(ClipDetailActivity.EXTRA_QUEUE_IDS, queueIds)
+                .putExtra(ClipDetailActivity.EXTRA_QUEUE_POSITION, position)
             startActivity(intent)
         }
         binding.clipRecyclerView.layoutManager = LinearLayoutManager(this)

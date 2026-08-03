@@ -6,14 +6,13 @@
     <application
         android:name=".RLVaultApp"
         android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="RL Vault"
         android:theme="@style/Theme.RLVault"
         tools:targetApi="34"
         xmlns:tools="http://schemas.android.com/tools">
 
-        <!-- android:icon intentionally omitted — no launcher icon asset exists yet (visual/UI
-             work is deferred past Milestone 1). Add @mipmap/ic_launcher back once real icon
-             assets are created. -->
         <!-- Bare Home screen (static placeholder content) — jumped ahead per SESSION_HANDOFF.md
              Option 3. Real data wiring still Milestone 2+. -->
         <activity

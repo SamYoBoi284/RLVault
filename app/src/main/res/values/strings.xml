@@ -24,8 +24,18 @@
     <string name="clip_detail_mechanics_helper">Existing tag names are reused; new ones are created.</string>
     <string name="clip_detail_notes_hint">Notes (optional)</string>
     <string name="clip_detail_mark_reviewed_button">Mark Reviewed</string>
+    <string name="clip_detail_queue_progress">Clip %1$d of %2$d</string>
+    <string name="clip_detail_previous_button">Previous</string>
+    <string name="clip_detail_skip_button">Skip</string>
+    <string name="clip_detail_next_button">Next</string>
+    <string name="clip_detail_queue_complete_toast">Review queue complete.</string>
+    <string name="clip_detail_previous_discard_toast">Discarded unsaved changes.</string>
 
-    <string name="import_clip_title">Import Clip</string>
+    <string name="import_clip_title">Import Clips</string>
+    <string name="import_clip_select_folder_button">Select Clip Folder</string>
+    <string name="import_clip_rescan_button">Rescan Folder</string>
+    <string name="import_clip_change_folder_button">Change Folder</string>
+    <string name="import_clip_manual_label">Or add a single clip from outside the folder:</string>
     <string name="import_clip_pick_button">Pick Video File</string>
 
     <string name="log_session_title">Log Session</string>

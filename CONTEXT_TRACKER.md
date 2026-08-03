@@ -458,14 +458,122 @@ Act like a senior Android engineer preparing a production-quality project.
 
 ---
 
+## SESSION LOG — data layer verified + achievement engine + Home + Import/Session/Dev screens
+
+(Follows the CI debugging saga in `GITHUB_CI_TRACKER.md` — data layer compile was confirmed green
+in GitHub Actions before any of this was built. See that file and `SESSION_HANDOFF.md` for how CI
+got there.)
+
+**Achievement rule evaluator** — `util/AchievementEvaluator.kt`
+- `evaluateAll()` loops every non-unlocked `Achievement`, parses `conditionJson` with `org.json`,
+  and checks two rule types: `clip_count` (against `ClipRepository.count()`) and `mechanic_count`
+  (against `ClipRepository.countWithMechanic()`). Calls `markUnlocked()` on anything newly met and
+  returns the list of newly-unlocked achievements.
+- Malformed `conditionJson` on one row is caught and skipped rather than aborting the whole pass.
+- New rule types = one more `when` branch; no caller changes needed (rules are data, not code).
+
+**Manual DI** — `di/ServiceLocator.kt` + `RLVaultApp.kt`
+- Decided against Hilt (would reintroduce annotation-processor setup, same reasoning as skipping
+  Room). `ServiceLocator` is a plain object holding one `RLVaultDbHelper` and the four repo/
+  evaluator instances, built once via `init(context)`.
+- `RLVaultApp : Application()` calls `ServiceLocator.init(this)` in `onCreate()`, registered in
+  the manifest as `android:name=".RLVaultApp"`.
+
+**Home screen — wired to real data** — `ui/home/`
+- `HomeViewModel` now takes the three repos + evaluator as constructor args (via a manual
+  `Factory`, since the default no-arg ViewModel factory won't do). On `refresh()` (called from
+  `init` and from `HomeActivity.onResume()`): runs the evaluator first, then loads pending-review
+  count (`clipRepository.getUnreviewed().size`), last session (`sessionRepository.getLatest()`,
+  formatted date + W/L), and latest unlocked achievement title. All three start at `"—"` and flip
+  once the coroutine resolves — empty data reads as "nothing yet," not broken.
+- `activity_home.xml` gained three nav buttons: Import Clip, Log Session, Developer Mode.
+
+**Import Clip screen** — `ui/clip/ImportClipActivity` + `ImportClipViewModel`
+- SAF picker (`ActivityResultContracts.OpenDocument()`, `video/*`). On pick: takes a persistable
+  URI permission (survives past the current process — needed since every future launch reads the
+  same `content://` URI back out) and inserts a `Clip` row with `filePath = uri.toString()`,
+  `title` from the SAF display name, both timestamps stamped to "now" (no reliable file-creation
+  timestamp available via SAF URI yet — real metadata reading is a later pass).
+
+**Log Session screen** — `ui/session/LogSessionActivity` + `LogSessionViewModel`
+- Manual entry form: wins/losses/rank/notes → inserts a `Session` with `isAutomatic = false`. This
+  is only the manual half of the spec's two session flows — the auto-tracked Start/End Session
+  flow (`startAutomaticSession`/`endAutomaticSession`) is still unbuilt.
+
+**Developer Mode screen** — `ui/dev/DeveloperModeActivity` + `DeveloperModeViewModel`
+- Two actions only, matching what the spec/trackers had already called out as existing needs:
+  **Recalculate Statistics** (re-runs `AchievementEvaluator.evaluateAll()`, reports what unlocked)
+  and **Reset Achievement Progress** (behind a confirm dialog, calls
+  `AchievementRepository.resetAllProgress()`). Achievement create/edit (`upsert`/`delete`),
+  database tools, and "rescan clip folder" from the original Developer Mode spec are NOT built yet.
+
+**CI** — `.github/workflows/build.yml` extended from `compileDebugKotlin` to `assembleDebug` +
+`actions/upload-artifact@v4` uploading `app-debug.apk`, now that there's a real launcher Activity
+worth packaging.
+
+**Not yet verified on a real device as of this session's end:** the SAF file-picker + persisted
+URI permission flow in Import Clip. CI passing only proves it compiles, not that picking a file
+and reading `pendingReviewValue` tick up afterward actually works. First real-device smoke test:
+open the app, tap Import Clip, pick a video, back out to Home, confirm the pending-review count
+increments.
+
+---
+
+## SESSION LOG — missing-files fix + real-device confirmation
+
+- First push of the Home/evaluator pass silently dropped `util/AchievementEvaluator.kt` and the
+  `androidx.activity:activity-ktx` dependency in `app/build.gradle.kts` — CI failed with
+  `Unresolved reference: util` / `Unresolved reference: viewModels` across every file that used
+  them, and CI was still running the OLD `compileDebugKotlin` command, confirming the whole first
+  zip's changes never landed, only later passes did.
+- Fix: re-delivered all files as one single consolidated zip (rather than three separate ones) to
+  remove any chance of a partial apply. Sam confirmed `util/AchievementEvaluator.kt` was in fact
+  missing locally before re-applying.
+- **Confirmed on a real device via `adb install`:** SAF file picker works, Import Clip successfully
+  indexes a video as a `Clip` row, and the Home screen's Pending Review counter correctly
+  incremented (+1) after import. First real-device proof this stack actually works end to end, not
+  just "compiles in CI."
+- **Known gap surfaced by that test:** no way to review an imported clip yet — `markReviewed()`
+  exists on `ClipRepository` but nothing in the UI calls it. This is the next thing being built.
+
+---
+
+## SESSION LOG — full Clip Review flow built
+
+**Clip Review screen** — `ui/review/`
+- `ClipListActivity` + `ClipListViewModel` + `ClipAdapter`: RecyclerView showing every clip with
+  `reviewed = false`, oldest import first (via `ClipRepository.getUnreviewed()`). Reachable from a
+  new "Review Clips" button on Home. `onResume()` refreshes the list so a clip just reviewed in
+  detail drops out immediately.
+- `ClipDetailActivity` + `ClipDetailViewModel`: tapping a clip opens its review form — rating
+  (numeric), favorite checkbox, notes, and a comma-separated mechanics tag input (freeform text,
+  get-or-create per name via `MechanicRepository.getOrCreate()` so retyping an existing tag reuses
+  its row instead of duplicating it). "Play" hands the clip's stored `content://` URI to the
+  phone's own video app via `ACTION_VIEW` — RL Vault still never embeds a player or copies the
+  file, same as the import philosophy.
+- **Mark Reviewed** saves rating/favorite/notes, calls `setMechanics()`, calls `markReviewed()`,
+  then re-runs `AchievementEvaluator.evaluateAll()` — this is the one path that can make a
+  `mechanic_count` rule fire for the first time, since mechanics only ever get attached during
+  review. Newly-unlocked achievement titles surface in the save Toast if any fired.
+- Added `androidx.recyclerview:recyclerview:1.3.2` dependency and `mechanicRepository` to
+  `ServiceLocator` (previously only had the other three repos + evaluator).
+
+**Not yet verified on a real device as of this session's end:** the whole review flow — tapping
+Play actually launching a video app off the stored SAF URI, mechanics tagging actually surviving a
+save, and a `mechanic_count` achievement actually unlocking end-to-end via Developer Mode →
+Recalculate Statistics. All of this compiles but none of it has been clicked through on the phone
+yet.
+
+---
+
 ## NEXT SESSION SHOULD PROBABLY START WITH
-1. Run `./gradlew compileDebugKotlin` (or full `assembleDebug`) locally to confirm the data layer
-   actually compiles — it has NOT been compiled/verified anywhere yet, only hand-written.
-2. Write the achievement rule evaluator in `util/` that reads `condition_json` off
-   `AchievementRepository.getAll()`, checks rules against `ClipRepository.count()` /
-   `countWithMechanic()` / session data, and calls `markUnlocked()` when a threshold is crossed.
-   Start with two rule types: `mechanic_count` and `clip_count`.
-3. Decide on a DI approach (manual singleton container is simplest given no framework chosen —
-   Hilt would reintroduce annotation-processing setup, which conflicts with the "no Android
-   Studio assumed" constraint unless verified to work headless).
-4. Only after the data layer is verified compiling: start Home screen ViewModel + layout.
+1. Real-device test of the review flow above — this is the priority, same reasoning as the Import
+   Clip real-device test two sessions ago: CI passing only proves it compiles.
+2. Once confirmed: try tagging a clip with a mechanic name matching a seeded achievement's
+   `condition_json` (e.g. "Flip Reset") enough times to actually watch it unlock — first live proof
+   the achievement engine works end-to-end, not just via code read-through.
+3. Auto-tracked Start/End Session flow, to complement the manual Log Session screen already built.
+4. Achievement definition create/edit in Developer Mode (`upsert`/`delete`) — currently only
+   Recalculate/Reset exist there.
+5. After every future multi-file delivery: confirm locally (`dir`/`ls` on the new paths) before
+   committing — a past session's bug was caused by a partial zip apply going unnoticed until CI ran.

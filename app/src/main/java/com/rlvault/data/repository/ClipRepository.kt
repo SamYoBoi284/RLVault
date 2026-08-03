@@ -20,4 +20,7 @@ interface ClipRepository {
     suspend fun setMechanics(clipId: Long, mechanicIds: List<Long>)
     suspend fun count(): Int
     suspend fun countWithMechanic(mechanicName: String): Int
+    /** All currently-indexed file paths (content:// URI strings), for diffing a folder scan
+     *  against what's already in the DB without pulling full Clip rows (mechanics, etc). */
+    suspend fun getAllFilePaths(): Set<String>
 }

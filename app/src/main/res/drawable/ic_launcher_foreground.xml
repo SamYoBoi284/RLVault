@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Minimal, abstract Rocket League motif — a boosted car silhouette about to meet a ball,
+    with motion-trail streaks. No logos, wordmarks, or copyrighted artwork — just simple shapes
+    built to match the app's own AMOLED-purple theme (see themes.xml, #8B5CF6).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- boost trail streaks, trailing lower-left of the car -->
+    <path
+        android:fillColor="#8B5CF6"
+        android:fillAlpha="0.35"
+        android:pathData="M14,86 L34,66 L38,70 L18,90 Z" />
+    <path
+        android:fillColor="#8B5CF6"
+        android:fillAlpha="0.55"
+        android:pathData="M22,84 L38,68 L42,72 L26,88 Z" />
+    <path
+        android:fillColor="#8B5CF6"
+        android:fillAlpha="0.8"
+        android:pathData="M30,82 L42,70 L46,74 L34,86 Z" />
+
+    <!-- car body: simplified low-poly wedge silhouette -->
+    <path
+        android:fillColor="#8B5CF6"
+        android:pathData="M30,78
+            L26,68
+            C26,64.7 28.7,62 32,62
+            L44,62
+            L50,52
+            C51,50.3 52.8,49.3 54.7,49.3
+            L64,49.3
+            C65.9,49.3 67.7,50.3 68.7,52
+            L74,62
+            L80,62
+            C83.3,62 86,64.7 86,68
+            L82,78
+            C81.3,79.8 79.6,81 77.7,81
+            L34.3,81
+            C32.4,81 30.7,79.8 30,78
+            Z" />
+
+    <!-- wheels -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M42,78 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M74,78 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" />
+
+    <!-- ball, mid-air above the car -->
+    <path
+        android:fillColor="#F5F5F5"
+        android:pathData="M70,34 m-13,0 a13,13 0 1,0 26,0 a13,13 0 1,0 -26,0" />
+    <path
+        android:fillColor="#8B5CF6"
+        android:fillAlpha="0.5"
+        android:pathData="M70,34 m-13,0 a13,13 0 1,0 26,0 a13,13 0 1,1 -26,0" />
+
+</vector>

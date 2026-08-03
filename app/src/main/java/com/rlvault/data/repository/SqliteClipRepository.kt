@@ -119,6 +119,15 @@ class SqliteClipRepository(private val dbHelper: RLVaultDbHelper) : ClipReposito
         db.rawQuery(sql, arrayOf(mechanicName)).use { c -> c.moveToFirst(); c.getInt(0) }
     }
 
+    override suspend fun getAllFilePaths(): Set<String> = withContext(Dispatchers.IO) {
+        val db = dbHelper.readableDatabase
+        db.query(Clips.TABLE, arrayOf(Clips.FILE_PATH), null, null, null, null, null).use { c ->
+            generateSequence { if (c.moveToNext()) c else null }
+                .map { it.getStringReq(Clips.FILE_PATH) }
+                .toSet()
+        }
+    }
+
     // --- internal helpers ---
 
     private fun setMechanicsInternal(db: SQLiteDatabase, clipId: Long, mechanicIds: List<Long>) {
