@@ -45,8 +45,8 @@ class AutomaticSessionViewModel(
             if (session != null) {
 
                 val elapsed =
-                    System.currentTimeMillis() -
-                            session.startTime
+    System.currentTimeMillis() -
+            (session.startTime ?: System.currentTimeMillis())
 
 
                 _elapsedTime.value =
@@ -63,13 +63,9 @@ class AutomaticSessionViewModel(
 
     private fun startTimer() {
 
-    handler.removeCallbacks(
-        timerRunnable
-    )
+    handler.removeCallbacks(timerRunnable)
 
-    handler.post(
-        timerRunnable
-    )
+    handler.post(timerRunnable)
 }
 
     init {

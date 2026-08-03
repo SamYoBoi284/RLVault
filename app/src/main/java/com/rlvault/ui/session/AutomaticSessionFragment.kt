@@ -83,15 +83,16 @@ class AutomaticSessionFragment :
                     View.VISIBLE
             }
         }
+
+
+        viewModel.elapsedTime.observe(
+            viewLifecycleOwner
+        ) { time ->
+
+            binding.timerText.text = time
+
+        }
     }
-
-    viewModel.elapsedTime.observe(
-    viewLifecycleOwner
-) { time ->
-
-    binding.timerText.text = time
-
-}
 
 
 private fun showEndSessionDialog() {
