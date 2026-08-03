@@ -31,6 +31,7 @@
         <activity android:name=".ui.review.ClipDetailActivity" android:exported="false" />
         <activity android:name=".ui.review.ReviewedClipListActivity" android:exported="false" />
         <activity android:name=".ui.player.PlayerActivity" android:exported="false" />
+        <activity android:name=".ui.session.SessionTrackingActivity" android:exported="false"/>
 
     </application>
 

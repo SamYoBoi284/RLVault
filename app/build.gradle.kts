@@ -53,6 +53,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.1") // for the `by viewModels()` delegate
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
     // DocumentFile — SAF tree-URI traversal for folder-based clip detection (list children,
     // read mime types/names) without hand-rolling ContentResolver queries against tree docs.
     implementation("androidx.documentfile:documentfile:1.0.1")
