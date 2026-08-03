@@ -85,6 +85,14 @@ class AutomaticSessionFragment :
         }
     }
 
+    viewModel.elapsedTime.observe(
+    viewLifecycleOwner
+) { time ->
+
+    binding.timerText.text = time
+
+}
+
 
 private fun showEndSessionDialog() {
 

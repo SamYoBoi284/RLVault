@@ -22,8 +22,11 @@ class AutomaticSessionViewModel(
     val activeSession: LiveData<Session?> = _activeSession
 
 
-    private val _elapsedTime = MutableLiveData<String>()
-    val elapsedTime: LiveData<String> = _elapsedTime
+    private val _elapsedTime =
+        MutableLiveData("00:00:00")
+
+    val elapsedTime: LiveData<String> =
+        _elapsedTime
 
 
     private val _status = MutableLiveData<String>()
@@ -58,6 +61,16 @@ class AutomaticSessionViewModel(
         }
     }
 
+    private fun startTimer() {
+
+    handler.removeCallbacks(
+        timerRunnable
+    )
+
+    handler.post(
+        timerRunnable
+    )
+}
 
     init {
         loadActiveSession()
@@ -86,9 +99,9 @@ class AutomaticSessionViewModel(
 
             if (active != null) {
 
-                handler.post(timerRunnable)
+    startTimer()
 
-            }
+}
         }
     }
 
@@ -111,7 +124,7 @@ class AutomaticSessionViewModel(
             _activeSession.value = session
 
 
-            handler.post(timerRunnable)
+            startTimer()
 
 
             _status.value =
