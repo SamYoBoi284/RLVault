@@ -19,11 +19,11 @@ sealed class ClipDetailEvent {
 }
 
 /**
- * [queueIds] is null in single-edit mode (opened from ReviewedClipListActivity, or any other
+ * [queueIds] is null in single-edit mode (opened from ReviewedClipsFragment, or any other
  * caller that doesn't pass queue extras) — Save just finishes immediately, no nav row.
  *
  * When non-null, this is the full unreviewed id list snapshotted once at queue-entry by
- * ClipListActivity, so it doesn't reshuffle under the user as clips drop out of the underlying
+ * PendingClipsFragment, so it doesn't reshuffle under the user as clips drop out of the underlying
  * list mid-review. [queuePosition] is the index into it the Activity is currently showing.
  */
 class ClipDetailViewModel(

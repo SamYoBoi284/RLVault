@@ -15,13 +15,13 @@ import com.rlvault.ui.player.PlayerActivity
  * Review screen for a single clip.
  *
  * Two modes, branched on whether queue extras are present:
- * - Queue mode (opened from ClipListActivity's unreviewed list): EXTRA_QUEUE_IDS carries the full
+ * - Queue mode (opened from PendingClipsFragment's unreviewed list): EXTRA_QUEUE_IDS carries the full
  *   unreviewed id list snapshotted once at queue-entry, EXTRA_QUEUE_POSITION the starting index.
  *   Shows a Previous/Skip/Next nav row + "Clip X of N" progress line. Save persists then
  *   auto-advances instead of finishing. Skip/Next advance without saving. Previous steps back
  *   (no-op at position 0, discards unsaved edits with a toast). Walking off either end finishes
- *   back to ClipListActivity with a "queue complete" toast.
- * - Single-edit mode (opened from ReviewedClipListActivity, or anywhere else that omits the queue
+ *   back to the Pending tab with a "queue complete" toast.
+ * - Single-edit mode (opened from ReviewedClipsFragment, or anywhere else that omits the queue
  *   extras): no nav row, Save finishes immediately, same as before this feature existed.
  */
 class ClipDetailActivity : AppCompatActivity() {

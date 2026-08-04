@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class SessionPagerAdapter(
-    activity: SessionTrackingActivity
-) : FragmentStateAdapter(activity) {
+    fragment: Fragment
+) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 3
 

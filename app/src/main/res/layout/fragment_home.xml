@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Home destination: pure dashboard, no navigation buttons (those moved to the bottom nav /
+    other destinations). Leaves room for Current Goal and Career Summary rows — placeholder
+    text only, no Goal/Statistics logic yet.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_title"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/pendingReviewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/home_pending_review_label"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/pendingReviewValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_placeholder_value"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/pendingReviewLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lastSessionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_last_session_label"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/pendingReviewValue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lastSessionValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_placeholder_value"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/lastSessionLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/latestAchievementLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_latest_achievement_label"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/lastSessionValue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/latestAchievementValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_placeholder_value"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/latestAchievementLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Future addition — no logic yet, placeholder text only. -->
+        <TextView
+            android:id="@+id/currentGoalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_current_goal_label"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/latestAchievementValue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/currentGoalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_coming_soon_value"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/currentGoalLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Future addition — no logic yet, placeholder text only. -->
+        <TextView
+            android:id="@+id/careerSummaryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_career_summary_label"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/currentGoalValue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/careerSummaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/home_coming_soon_value"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/careerSummaryLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

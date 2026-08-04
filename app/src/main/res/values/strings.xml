@@ -8,11 +8,29 @@
     <string name="home_latest_achievement_label">Latest Achievement</string>
     <!-- Static placeholder — flips to real values once HomeViewModel loads. -->
     <string name="home_placeholder_value">—</string>
+    <!-- Future additions — no Goal/Statistics logic yet, placeholder text only. -->
+    <string name="home_current_goal_label">Current Goal</string>
+    <string name="home_career_summary_label">Career Summary</string>
+    <string name="home_coming_soon_value">Coming soon</string>
+    <!-- Now used as the Import-Clip FAB's content description on the Clips destination. -->
     <string name="home_import_clip_button">Import Clip</string>
-    <string name="home_log_session_button">Log Session</string>
-    <string name="home_dev_mode_button">Developer Mode</string>
-    <string name="home_review_clips_button">Review Clips</string>
-    <string name="home_reviewed_clips_button">Reviewed Clips</string>
+
+    <!-- Bottom navigation labels, left to right. -->
+    <string name="nav_sessions">Sessions</string>
+    <string name="nav_clips">Clips</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_progress">Progress</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="progress_title">Progress</string>
+    <string name="progress_coming_soon">Coming Soon</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_about_label">About</string>
+    <string name="settings_version_label">Version</string>
+    <!-- Plain placeholder version string per spec example; wire up to BuildConfig.VERSION_NAME
+         whenever this destination gets real implementation. -->
+    <string name="settings_version_placeholder">5.4.0</string>
 
     <string name="clip_list_empty">No clips waiting for review.</string>
     <string name="reviewed_list_empty">No clips reviewed yet.</string>

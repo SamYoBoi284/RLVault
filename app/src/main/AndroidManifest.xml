@@ -13,10 +13,11 @@
         tools:targetApi="34"
         xmlns:tools="http://schemas.android.com/tools">
 
-        <!-- Bare Home screen (static placeholder content) — jumped ahead per SESSION_HANDOFF.md
-             Option 3. Real data wiring still Milestone 2+. -->
+        <!-- Launcher Activity: hosts the BottomNavigationView + the five nav destinations
+             (Sessions / Clips / Home / Progress / Settings) as Fragments. Replaces the old
+             bare HomeActivity — see ui.main.MainActivity. -->
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +28,8 @@
         <activity android:name=".ui.clip.ImportClipActivity" android:exported="false" />
         <activity android:name=".ui.session.LogSessionActivity" android:exported="false" />
         <activity android:name=".ui.dev.DeveloperModeActivity" android:exported="false" />
-        <activity android:name=".ui.review.ClipListActivity" android:exported="false" />
         <activity android:name=".ui.review.ClipDetailActivity" android:exported="false" />
-        <activity android:name=".ui.review.ReviewedClipListActivity" android:exported="false" />
         <activity android:name=".ui.player.PlayerActivity" android:exported="false" />
-        <activity android:name=".ui.session.SessionTrackingActivity" android:exported="false"/>
 
     </application>
 

@@ -1,0 +1,177 @@
+RLVault — BottomNavigationView refactor
+Session date: 2026-08-04
+Scope: UI/navigation only. No database, repository, schema, or business-logic changes.
+
+============================================================
+NEW FILES
+============================================================
+
+app/src/main/java/com/rlvault/ui/main/MainActivity.kt
+    New launcher Activity. Hosts BottomNavigationView (5 items) + a FragmentContainerView.
+    Swaps between the 5 destination fragments via manual show/hide FragmentTransactions
+    (no androidx.navigation dependency added — kept to what the project already has).
+
+app/src/main/res/layout/activity_main.xml
+    Layout for MainActivity: FragmentContainerView above a BottomNavigationView.
+
+app/src/main/res/menu/bottom_nav_menu.xml
+    5 destinations, left to right: Sessions, Clips, Home, Progress, Settings.
+    Icons are stock @android:drawable placeholders — no custom vector art existed in the
+    project, swap for real iconography later.
+
+app/src/main/java/com/rlvault/ui/home/HomeFragment.kt
+app/src/main/res/layout/fragment_home.xml
+    Home destination — dashboard only, no buttons. Same HomeViewModel/data wiring as the old
+    HomeActivity (Pending Review / Last Session / Latest Achievement). Adds placeholder rows
+    for "Current Goal" and "Career Summary" (text only, no logic — per spec).
+
+app/src/main/java/com/rlvault/ui/session/SessionsFragment.kt
+app/src/main/res/layout/fragment_sessions.xml
+    Sessions destination — hosts the existing Manual / Automatic / History TabLayout +
+    ViewPager2 UI, moved here unchanged from the old SessionTrackingActivity.
+
+app/src/main/java/com/rlvault/ui/clip/ClipsFragment.kt
+app/src/main/java/com/rlvault/ui/clip/ClipsPagerAdapter.kt
+app/src/main/res/layout/fragment_clips.xml
+    Clips destination — Pending / Reviewed tabs, replacing the old separate Review Clips /
+    Reviewed Clips screens. Also carries a FAB that launches ImportClipActivity — see
+    ASSUMPTIONS below, this wasn't in the spec.
+
+app/src/main/java/com/rlvault/ui/review/PendingClipsFragment.kt
+    Pending tab content. Ported 1:1 from the old ClipListActivity — same ClipListViewModel,
+    same ClipAdapter, same queue-snapshot behavior when opening a clip. Reuses the existing
+    layout/activity_clip_list.xml (RecyclerView + empty state) rather than duplicating it.
+
+app/src/main/java/com/rlvault/ui/review/ReviewedClipsFragment.kt
+    Reviewed tab content. Ported 1:1 from the old ReviewedClipListActivity — same
+    ReviewedClipListViewModel, single-edit mode on tap. Also reuses activity_clip_list.xml.
+
+app/src/main/java/com/rlvault/ui/progress/ProgressFragment.kt
+app/src/main/res/layout/fragment_progress.xml
+    Progress destination — placeholder only ("Progress" / "Coming Soon"). No Statistics/
+    Goals/Progress logic implemented.
+
+app/src/main/java/com/rlvault/ui/settings/SettingsFragment.kt
+app/src/main/res/layout/fragment_settings.xml
+    Settings destination — placeholder About section + Version row. Version text is plain
+    (no card, no button styling) but clickable; click listener body is just a TODO comment —
+    the "tap 7 times to unlock Developer Options" logic is intentionally NOT implemented.
+
+============================================================
+MODIFIED FILES
+============================================================
+
+app/src/main/AndroidManifest.xml
+    Launcher activity swapped from .ui.home.HomeActivity to .ui.main.MainActivity.
+    Removed manifest entries for .ui.session.SessionTrackingActivity,
+    .ui.review.ClipListActivity, .ui.review.ReviewedClipListActivity (folded into fragments).
+    ImportClipActivity, LogSessionActivity (pre-existing, unused — left alone),
+    DeveloperModeActivity, ClipDetailActivity, PlayerActivity registrations unchanged.
+
+app/src/main/java/com/rlvault/ui/session/SessionPagerAdapter.kt
+    Constructor changed from `SessionPagerAdapter(activity: SessionTrackingActivity)` to
+    `SessionPagerAdapter(fragment: Fragment)`, since it's now instantiated inside
+    SessionsFragment instead of its own Activity. This is the one business-adjacent class
+    touched, and only for the navigation host change — page order/content (Manual/Automatic/
+    History) is untouched.
+
+app/src/main/res/values/strings.xml
+    Added: nav_sessions, nav_clips, nav_home, nav_progress, nav_settings,
+    home_current_goal_label, home_career_summary_label, home_coming_soon_value,
+    progress_title, progress_coming_soon, settings_title, settings_about_label,
+    settings_version_label, settings_version_placeholder.
+    Removed: home_log_session_button, home_dev_mode_button, home_review_clips_button,
+    home_reviewed_clips_button (no buttons left to reference them).
+    Kept: home_import_clip_button — repurposed as the Clips-tab FAB's content description.
+
+app/src/main/java/com/rlvault/ui/review/ClipDetailActivity.kt
+app/src/main/java/com/rlvault/ui/review/ClipDetailViewModel.kt
+    Doc-comment-only edits: references to the deleted ClipListActivity /
+    ReviewedClipListActivity updated to point at PendingClipsFragment / ReviewedClipsFragment.
+    No logic changed.
+
+NOTE — line-ending noise, not real edits:
+    A handful of session/* files (AutomaticSessionFragment.kt, AutomaticSessionViewModel.kt,
+    ManualSessionFragment.kt, SessionHistoryAdapter.kt, SessionHistoryFragment.kt,
+    SessionHistoryViewModel.kt, dialog_end_session.xml, fragment_automatic_session.xml,
+    fragment_manual_session.xml, fragment_session_history.xml, item_session_history.xml,
+    gradlew.bat) show as "modified" in `git status` purely because the zip extraction
+    normalized their line endings (CRLF -> LF). Content is byte-identical otherwise — nothing
+    in these files was intentionally touched.
+
+============================================================
+DELETED FILES
+============================================================
+
+app/src/main/java/com/rlvault/ui/home/HomeActivity.kt
+    Superseded by MainActivity (nav host) + HomeFragment (dashboard content).
+
+app/src/main/java/com/rlvault/ui/session/SessionTrackingActivity.kt
+    Superseded by SessionsFragment.
+
+app/src/main/java/com/rlvault/ui/review/ClipListActivity.kt
+    Superseded by PendingClipsFragment.
+
+app/src/main/java/com/rlvault/ui/review/ReviewedClipListActivity.kt
+    Superseded by ReviewedClipsFragment.
+
+app/src/main/res/layout/activity_home.xml
+    Superseded by fragment_home.xml.
+
+app/src/main/res/layout/activity_session_tracking.xml
+    Superseded by fragment_sessions.xml.
+
+============================================================
+UNTOUCHED (explicitly out of scope, confirmed unchanged)
+============================================================
+
+- All of data/db, data/model, data/repository (schema, DAOs, SQLite code)
+- di/ServiceLocator.kt
+- util/AchievementEvaluator.kt, util/ClipFolderPrefs.kt
+- ui/clip/ImportClipActivity.kt + ImportClipViewModel.kt (still a standalone Activity,
+  now launched from the Clips-tab FAB instead of a Home button)
+- ui/dev/DeveloperModeActivity.kt + DeveloperModeViewModel.kt (still registered in the
+  manifest, just has no entry point from the UI yet — Settings will link to it later,
+  after the 7-tap unlock is implemented)
+- ui/player/PlayerActivity.kt
+- ui/review/ClipDetailActivity.kt, ClipDetailViewModel.kt, ClipAdapter.kt (comment-only
+  edits noted above; behavior unchanged)
+- ui/session/ManualSessionFragment.kt, AutomaticSessionFragment.kt,
+  AutomaticSessionViewModel.kt, SessionHistoryFragment.kt, SessionHistoryViewModel.kt,
+  SessionHistoryAdapter.kt
+- ui/session/LogSessionActivity.kt + LogSessionViewModel.kt (pre-existing dead code —
+  imported but never launched even before this refactor; left as-is)
+- build.gradle.kts / app/build.gradle.kts, gradle.properties, settings.gradle.kts
+  (no new dependencies needed — Material components, ViewPager2, fragment-ktx were
+  already present)
+
+============================================================
+ASSUMPTIONS MADE (flag if you want these changed)
+============================================================
+
+1. Import Clip entry point: the spec removes all Home buttons but doesn't say where
+   Import Clip should live afterward. Added a FAB on the Clips destination
+   (ClipsFragment) that launches ImportClipActivity, since that's the most natural
+   surviving screen for it. Easy to relocate or drop if you had somewhere else in mind.
+
+2. Bottom nav icons: stock @android:drawable placeholders (ic_menu_recent_history,
+   ic_menu_slideshow, ic_menu_myplaces, ic_menu_sort_by_size, ic_menu_preferences) —
+   no custom icon assets existed in the repo to draw from. Purely cosmetic, swap
+   whenever real iconography is ready; the menu item ids won't need to change.
+
+3. Fragment lifecycle strategy: used show/hide (all 5 fragments created once, kept
+   alive) rather than replace(), so switching tabs preserves scroll position/state —
+   matches the existing app's TabLayout+ViewPager2 pattern. One side effect: onResume()
+   fires for all 5 destination fragments whenever the Activity resumes (not just the
+   visible one), so HomeViewModel.refresh() etc. run a bit more often than strictly
+   necessary. Harmless, just slightly more DB reads on app-foreground.
+
+============================================================
+NOT VERIFIED
+============================================================
+
+No Android SDK / emulator available in this environment, so this has NOT been built
+or run. Please let GitHub Actions (or a local build) confirm it compiles before relying
+on it. Recommend reviewing MainActivity's fragment show/hide logic and the two new
+FragmentStateAdapter constructors (SessionPagerAdapter, ClipsPagerAdapter) first, since
+those are the spots most likely to have a typo that only shows up at build time.
