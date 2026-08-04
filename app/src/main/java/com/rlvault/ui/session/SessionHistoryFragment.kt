@@ -8,13 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rlvault.databinding.FragmentSessionHistoryBinding
+import com.rlvault.di.ServiceLocator
 
 class SessionHistoryFragment : Fragment() {
 
     private var _binding: FragmentSessionHistoryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SessionHistoryViewModel by viewModels()
+    private val viewModel: SessionHistoryViewModel by viewModels {
+        SessionHistoryViewModel.Factory(ServiceLocator.sessionRepository)
+    }
 
     private lateinit var adapter: SessionHistoryAdapter
 
@@ -44,6 +47,7 @@ class SessionHistoryFragment : Fragment() {
 
         setupRecyclerView()
         observeSessions()
+        viewModel.loadSessions()
 
     }
 
