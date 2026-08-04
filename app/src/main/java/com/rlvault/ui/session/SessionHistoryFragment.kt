@@ -47,8 +47,17 @@ class SessionHistoryFragment : Fragment() {
 
         setupRecyclerView()
         observeSessions()
-        viewModel.loadSessions()
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        // ViewPager2 prefetches this fragment's view before the History tab is actually
+        // visible, so onViewCreated can fire (and load stale/empty data) before a session
+        // has been saved. Reload every time the tab becomes visible instead.
+        viewModel.loadSessions()
     }
 
 
