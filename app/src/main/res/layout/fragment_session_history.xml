@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+<<<<<<< HEAD
   <TextView
+=======
+    <TextView
+>>>>>>> c417e1b928e14766c457efd3cf6d9b35ffaec544
         android:id="@+id/emptyStateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
