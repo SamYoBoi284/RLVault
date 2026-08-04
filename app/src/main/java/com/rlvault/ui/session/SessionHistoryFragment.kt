@@ -83,6 +83,7 @@ class SessionHistoryFragment :
             View.VISIBLE
     }
 }
+    }
 
 
 
@@ -93,7 +94,6 @@ class SessionHistoryFragment :
         viewModel.loadSessions()
     }
 
-}
 
 
     override fun onDestroyView() {

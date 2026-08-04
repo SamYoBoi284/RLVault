@@ -147,6 +147,16 @@ MAIN/LAUNCHER intent-filter at .ui.home.HomeActivity instead of .ui.main.MainAct
 everything it needs is already in the manifest and on the classpath.
 
 ============================================================
+FOLLOW-UP CORRECTION 2 — pre-existing compile bug fixed
+============================================================
+
+CI build failed on app/src/main/java/com/rlvault/ui/session/SessionHistoryFragment.kt:
+onViewCreated() was missing its own closing brace before onResume()/onDestroyView(). This
+bug was already present in the very first uploaded zip (predates this refactor entirely —
+it just hadn't been compiled before). Fixed by closing onViewCreated() right after the
+viewModel.sessions.observe { ... } block ends. No other logic in that file touched.
+
+============================================================
 UNTOUCHED (explicitly out of scope, confirmed unchanged)
 ============================================================
 
