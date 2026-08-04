@@ -1,103 +1,105 @@
 package com.rlvault.ui.session
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rlvault.R
 import com.rlvault.databinding.FragmentSessionHistoryBinding
-import com.rlvault.di.ServiceLocator
 
-
-class SessionHistoryFragment :
-    Fragment(R.layout.fragment_session_history) {
-
+class SessionHistoryFragment : Fragment() {
 
     private var _binding: FragmentSessionHistoryBinding? = null
+    private val binding get() = _binding!!
 
-    private val binding
-        get() = _binding!!
+    private val viewModel: SessionHistoryViewModel by viewModels()
+
+    private lateinit var adapter: SessionHistoryAdapter
 
 
-    private val viewModel:
-            SessionHistoryViewModel by viewModels {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
-        SessionHistoryViewModel.Factory(
-            ServiceLocator.sessionRepository
+        _binding = FragmentSessionHistoryBinding.inflate(
+            inflater,
+            container,
+            false
         )
+
+        return binding.root
     }
-
-
-    private lateinit var adapter:
-            SessionHistoryAdapter
-
 
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
-
-        _binding =
-            FragmentSessionHistoryBinding.bind(view)
+        super.onViewCreated(view, savedInstanceState)
 
 
-        adapter =
-            SessionHistoryAdapter()
+        setupRecyclerView()
+        observeSessions()
+
+    }
 
 
-        binding.sessionRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
+    private fun setupRecyclerView() {
+
+        adapter = SessionHistoryAdapter()
+
+        binding.sessionHistoryRecyclerView.apply {
+
+            layoutManager =
+                LinearLayoutManager(requireContext())
+
+            adapter = this@SessionHistoryFragment.adapter
+
+        }
+
+    }
 
 
-        binding.sessionRecyclerView.adapter =
-            adapter
-
-
+    private fun observeSessions() {
 
         viewModel.sessions.observe(
-    viewLifecycleOwner
-) { sessions ->
+            viewLifecycleOwner
+        ) { sessions ->
 
 
-    adapter.submitList(
-        sessions
-    )
+            if (sessions.isEmpty()) {
+
+                binding.emptyStateText.visibility =
+                    View.VISIBLE
+
+                binding.sessionHistoryRecyclerView.visibility =
+                    View.GONE
+
+            } else {
+
+                binding.emptyStateText.visibility =
+                    View.GONE
+
+                binding.sessionHistoryRecyclerView.visibility =
+                    View.VISIBLE
 
 
-    if (sessions.isEmpty()) {
+                adapter.submitList(
+                    sessions
+                )
 
-        binding.emptyText.visibility =
-            View.VISIBLE
+            }
 
-        binding.sessionRecyclerView.visibility =
-            View.GONE
+        }
 
-    } else {
-
-        binding.emptyText.visibility =
-            View.GONE
-
-        binding.sessionRecyclerView.visibility =
-            View.VISIBLE
     }
-}
-    }
-
-
-
-    override fun onResume() {
-
-        super.onResume()
-
-        viewModel.loadSessions()
-    }
-
 
 
     override fun onDestroyView() {
-
         super.onDestroyView()
 
         _binding = null
