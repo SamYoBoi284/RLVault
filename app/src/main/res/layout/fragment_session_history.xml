@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:orientation="vertical"
     android:padding="16dp">
 
-
-    <TextView
-        android:id="@+id/emptyText"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="No completed sessions yet"
-
-        android:textSize="18sp"
-
-        android:gravity="center"
-
-        android:padding="24dp"/>
-
-
     <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/sessionRecyclerView"
-
+        android:id="@+id/sessionHistoryRecyclerView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        android:layout_height="match_parent"/>
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
