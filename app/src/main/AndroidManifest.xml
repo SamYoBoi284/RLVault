@@ -31,6 +31,15 @@
         <activity android:name=".ui.review.ClipDetailActivity" android:exported="false" />
         <activity android:name=".ui.player.PlayerActivity" android:exported="false" />
 
+        <!-- Fallback screens, not part of the active bottom-nav flow — kept registered (but
+             unreferenced by MainActivity) so the app can be rolled back to the old per-screen
+             navigation quickly if the refactor ever needs to be reverted. See
+             CONTEXT_TRACKER_NAV_REFACTOR.txt. -->
+        <activity android:name=".ui.home.HomeActivity" android:exported="false" />
+        <activity android:name=".ui.session.SessionTrackingActivity" android:exported="false" />
+        <activity android:name=".ui.review.ClipListActivity" android:exported="false" />
+        <activity android:name=".ui.review.ReviewedClipListActivity" android:exported="false" />
+
     </application>
 
 </manifest>

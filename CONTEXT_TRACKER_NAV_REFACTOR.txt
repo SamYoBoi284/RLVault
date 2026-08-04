@@ -2,6 +2,14 @@ RLVault — BottomNavigationView refactor
 Session date: 2026-08-04
 Scope: UI/navigation only. No database, repository, schema, or business-logic changes.
 
+FOLLOW-UP CORRECTION (same session): the first pass deleted HomeActivity,
+SessionTrackingActivity, ClipListActivity, ReviewedClipListActivity and their two layouts.
+Per request, all four Activities + both layouts have been RESTORED and are kept in the repo
+(registered in the manifest, exported="false", not wired to any UI) purely as a fallback in
+case the bottom-nav refactor needs to be rolled back later. The new fragment-based nav is
+still the active/default UI — MainActivity is still the launcher. See "RESTORED FALLBACK
+FILES" section below for exactly what changed to make both versions coexist and compile.
+
 ============================================================
 NEW FILES
 ============================================================
@@ -100,26 +108,43 @@ NOTE — line-ending noise, not real edits:
     in these files was intentionally touched.
 
 ============================================================
-DELETED FILES
+RESTORED FALLBACK FILES (not deleted — kept for rollback)
 ============================================================
 
+These four Activities + two layouts were deleted in the first pass, then restored by
+request. They now coexist with the new fragment-based nav: registered in the manifest
+as ordinary (exported="false") activities with no intent-filter, so nothing launches
+them, but they're fully present and buildable if you ever need to point the launcher
+back at HomeActivity.
+
 app/src/main/java/com/rlvault/ui/home/HomeActivity.kt
-    Superseded by MainActivity (nav host) + HomeFragment (dashboard content).
+app/src/main/res/layout/activity_home.xml
+    Original Home screen with the 5 buttons. Untouched content-wise.
 
 app/src/main/java/com/rlvault/ui/session/SessionTrackingActivity.kt
-    Superseded by SessionsFragment.
+app/src/main/res/layout/activity_session_tracking.xml
+    Original standalone Manual/Automatic/History screen. Untouched content-wise.
 
 app/src/main/java/com/rlvault/ui/review/ClipListActivity.kt
-    Superseded by PendingClipsFragment.
+    Original standalone Review Clips screen. Untouched content-wise.
 
 app/src/main/java/com/rlvault/ui/review/ReviewedClipListActivity.kt
-    Superseded by ReviewedClipsFragment.
+    Original standalone Reviewed Clips screen. Untouched content-wise.
 
-app/src/main/res/layout/activity_home.xml
-    Superseded by fragment_home.xml.
+What had to change to make these compile alongside the new fragments:
 
-app/src/main/res/layout/activity_session_tracking.xml
-    Superseded by fragment_sessions.xml.
+- SessionPagerAdapter.kt now has two constructors — one taking a Fragment (used by the
+  new SessionsFragment) and one taking a FragmentActivity (used by the restored
+  SessionTrackingActivity, which calls SessionPagerAdapter(this)). Both delegate to the
+  matching FragmentStateAdapter superclass constructor. This is the only structural
+  change needed to support both navigation paths at once.
+- strings.xml: home_log_session_button, home_dev_mode_button, home_review_clips_button,
+  home_reviewed_clips_button were re-added (they're only read by the restored
+  activity_home.xml).
+
+To actually roll back to the old navigation, you'd point AndroidManifest.xml's
+MAIN/LAUNCHER intent-filter at .ui.home.HomeActivity instead of .ui.main.MainActivity —
+everything it needs is already in the manifest and on the classpath.
 
 ============================================================
 UNTOUCHED (explicitly out of scope, confirmed unchanged)

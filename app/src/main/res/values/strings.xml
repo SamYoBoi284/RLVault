@@ -12,8 +12,16 @@
     <string name="home_current_goal_label">Current Goal</string>
     <string name="home_career_summary_label">Career Summary</string>
     <string name="home_coming_soon_value">Coming soon</string>
-    <!-- Now used as the Import-Clip FAB's content description on the Clips destination. -->
+    <!-- Now used as the Import-Clip FAB's content description on the Clips destination
+         (and still by the fallback HomeActivity's button, restored below). -->
     <string name="home_import_clip_button">Import Clip</string>
+
+    <!-- Fallback-screen-only strings — only referenced by the restored, currently-unused
+         activity_home.xml (HomeActivity), kept around for rollback. -->
+    <string name="home_log_session_button">Log Session</string>
+    <string name="home_dev_mode_button">Developer Mode</string>
+    <string name="home_review_clips_button">Review Clips</string>
+    <string name="home_reviewed_clips_button">Reviewed Clips</string>
 
     <!-- Bottom navigation labels, left to right. -->
     <string name="nav_sessions">Sessions</string>
