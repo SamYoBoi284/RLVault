@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+
+    android:layout_marginBottom="12dp"
+
+android:layout_width="match_parent"
+
+android:layout_height="wrap_content"
+
+android:padding="4dp">
+
+
+    <TextView
+
+        android:id="@+id/dateText"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Aug 04 2026"
+
+        android:textSize="18sp"/>
+
+
+
+    <TextView
+
+        android:id="@+id/resultText"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Wins: 5 Losses: 2"/>
+
+
+
+    <TextView
+
+        android:id="@+id/rankText"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Rank: Diamond"/>
+
+
+
+    <TextView
+
+        android:id="@+id/durationText"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Duration: 60 min"/>
+
+
+
+    <TextView
+
+        android:id="@+id/typeText"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Automatic"/>
+
+
+</androidx.cardview.widget.CardView>

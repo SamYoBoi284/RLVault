@@ -21,9 +21,13 @@ class SessionTrackingActivity : AppCompatActivity() {
 
         TabLayoutMediator(tabs, pager) { tab, position ->
             tab.text = when(position) {
-                0 -> "Manual"
-                else -> "Automatic"
-            }
+
+    0 -> "Manual"
+
+    1 -> "Automatic"
+
+    else -> "History"
+}
         }.attach()
     }
 }
